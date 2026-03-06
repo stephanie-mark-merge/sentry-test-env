@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('test/', include('testapp.urls')),
+    path('webhook/sentry-to-pagerduty', views.sentry_to_pagerduty, name='sentry_to_pagerduty'),
+    path('webhook/sentry-to-pagerduty/', views.sentry_to_pagerduty),
 ]

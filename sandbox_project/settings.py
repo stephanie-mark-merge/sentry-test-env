@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import sentry_sdk
 
 # Sentry Configuration
@@ -31,6 +34,12 @@ sentry_sdk.init(
     send_default_pii=True,
 )
 
+# Honeycomb / OpenTelemetry Configuration
+# When running with `opentelemetry-instrument`, Django is auto-instrumented.
+# These env vars control the OTel exporter (set in .env or shell):
+#   OTEL_SERVICE_NAME, OTEL_EXPORTER_OTLP_ENDPOINT, OTEL_EXPORTER_OTLP_HEADERS
+# See .env.example for details.
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,9 +51,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a(fi3!*cun*843tj11%m3t31!=-16#mz^x4_-0@=w!pz7_q4mt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# Note: opentelemetry-instrument sets DEBUG=False (OTel env var), so we
+# hardcode True here since this is a test sandbox.
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
